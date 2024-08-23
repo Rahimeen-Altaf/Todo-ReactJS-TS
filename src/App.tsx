@@ -15,8 +15,29 @@ const App = () => {
 
   const [title, setTitle] = useState<todoItemType["title"]>("");
 
-  const completeHandler = (id: todoItemType["id"]): void => {};
-  const deleteHandler = (id: todoItemType["id"]): void => {};
+  const completeHandler = (id: todoItemType["id"]): void => {
+    const newTodos: todoItemType[] = todos.map((todo) => {
+      if (todo.id === id) todo.isCompleted = !todo.isCompleted;
+      return todo;
+    });
+    setTodos(newTodos);
+  };
+
+  const deleteHandler = (id: todoItemType["id"]): void => {
+    const newTodos: todoItemType[] = todos.filter((todo) => todo.id !== id);
+    return setTodos(newTodos);
+  };
+
+  const editHandler = (
+    id: todoItemType["id"],
+    newTitle: todoItemType["title"]
+  ): void => {
+    const newTodos: todoItemType[] = todos.map((todo) => {
+      if (todo.id === id) todo.title = newTitle;
+      return todo;
+    });
+    return setTodos(newTodos);
+  };
 
   const submitHandler = (): void => {
     const newTodo: todoItemType = {
@@ -43,6 +64,7 @@ const App = () => {
             completeHandler={completeHandler}
             key={i.id}
             todo={i}
+            editHandler={editHandler}
           />
         ))}
       </Stack>

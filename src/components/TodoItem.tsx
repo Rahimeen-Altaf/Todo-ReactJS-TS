@@ -1,4 +1,4 @@
-import { Delete, Edit, Done } from "@mui/icons-material";
+import { Delete, Done, Edit } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
@@ -32,9 +32,17 @@ const TodoItem = ({
     <Paper
       sx={{
         padding: "1rem",
+        wordBreak: "break-word",
+        overflowWrap: "break-word",
+        display: "flex",
+        alignItems: "center",
       }}
     >
-      <Stack direction={"row"} alignItems={"center"}>
+      <Stack
+        direction={"row"}
+        alignItems={"center"}
+        sx={{ flexGrow: 1, overflow: "hidden" }}
+      >
         {editActive ? (
           <TextField
             value={textVal}
@@ -45,9 +53,23 @@ const TodoItem = ({
                 setEditActive(false);
               }
             }}
+            sx={{
+              flexGrow: 1,
+              marginRight: "1rem",
+            }}
           />
         ) : (
-          <Typography marginRight={"auto"}>{todo.title}</Typography>
+          <Typography
+            marginRight={"auto"}
+            sx={{
+              flexGrow: 1,
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+            }}
+          >
+            {todo.title}
+          </Typography>
         )}
         <Checkbox
           checked={todo.isCompleted}

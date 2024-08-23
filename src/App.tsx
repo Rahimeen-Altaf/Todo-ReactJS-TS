@@ -26,7 +26,7 @@ const App = () => {
 
   const deleteHandler = (id: todoItemType["id"]): void => {
     const newTodos: todoItemType[] = todos.filter((todo) => todo.id !== id);
-    return setTodos(newTodos);
+    setTodos(newTodos);
   };
 
   const editHandler = (
@@ -37,7 +37,7 @@ const App = () => {
       if (todo.id === id) todo.title = newTitle;
       return todo;
     });
-    return setTodos(newTodos);
+    setTodos(newTodos);
   };
 
   const submitHandler = (): void => {
@@ -55,14 +55,27 @@ const App = () => {
   }, [todos]);
 
   return (
-    <Container maxWidth="sm" sx={{ height: "100vh" }}>
+    <Container
+      maxWidth="sm"
+      sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
+    >
       <AppBar position="static">
         <Toolbar>
-          <Typography>Todo App</Typography>
+          <Typography variant="h6">Todo App</Typography>
         </Toolbar>
       </AppBar>
-
-      <Stack height={"80%"} direction={"column"} spacing={"1rem"} p={"1rem"}>
+      <Stack
+        direction="column"
+        spacing={2}
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto",
+          padding: 2,
+          marginTop: 2,
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+        }}
+      >
         {todos.map((i) => (
           <TodoItem
             deleteHandler={deleteHandler}
@@ -73,28 +86,23 @@ const App = () => {
           />
         ))}
       </Stack>
-      <TextField
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        fullWidth
-        label="Add Todo"
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && title) {
-            submitHandler();
-          }
-        }}
-      />
-      <Button
-        sx={{
-          margin: "1rem 0",
-        }}
-        fullWidth
-        variant="contained"
-        onClick={submitHandler}
-        disabled={!title}
-      >
-        Add
-      </Button>
+
+      <Stack direction="row" spacing={2} mt={2}>
+        <TextField
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          fullWidth
+          label="Add Todo"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && title) {
+              submitHandler();
+            }
+          }}
+        />
+        <Button variant="contained" onClick={submitHandler} disabled={!title}>
+          Add
+        </Button>
+      </Stack>
     </Container>
   );
 };

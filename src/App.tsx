@@ -7,11 +7,12 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoItem from "./components/TodoItem.tsx";
+import { getTodos, saveTodos } from "./utils/features.ts";
 
 const App = () => {
-  const [todos, setTodos] = useState<todoItemType[]>([]);
+  const [todos, setTodos] = useState<todoItemType[]>(getTodos());
 
   const [title, setTitle] = useState<todoItemType["title"]>("");
 
@@ -48,6 +49,10 @@ const App = () => {
     setTodos([...todos, newTodo]);
     setTitle("");
   };
+
+  useEffect(() => {
+    saveTodos(todos);
+  }, [todos]);
 
   return (
     <Container maxWidth="sm" sx={{ height: "100vh" }}>
